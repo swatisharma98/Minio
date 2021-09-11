@@ -1,4 +1,4 @@
-package com.comviva.snd.minio;
+package com.project.minio;
 
 import java.io.File;
 import java.io.FileInputStream;
