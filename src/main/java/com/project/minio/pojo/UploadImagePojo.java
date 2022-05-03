@@ -2,14 +2,15 @@ package com.project.minio.pojo;
 
 public class UploadImagePojo {
 	
-	Integer invTypeId;
+	Integer id;
 	String fileName;
 	String path;
-	public Integer getInvTypeId() {
-		return invTypeId;
+	
+	public Integer getId() {
+		return id;
 	}
-	public void setInvTypeId(Integer invTypeId) {
-		this.invTypeId = invTypeId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	public String getFileName() {
 		return fileName;

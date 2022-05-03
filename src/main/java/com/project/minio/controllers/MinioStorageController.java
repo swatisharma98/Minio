@@ -43,45 +43,24 @@ public class MinioStorageController {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@Operation(summary = "API to upload file", description = "API will upload the file")
-	@PostMapping(path = "/upload/{bucketName}/{invTypeId}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	@PostMapping(path = "/upload/{bucketName}/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public UploadImagePojo uploadFile(@RequestPart(value = "file", required = false) MultipartFile files,
-			@PathVariable Integer invTypeId, @PathVariable String bucketName) throws IOException {
+			@PathVariable Integer id, @PathVariable String bucketName) throws IOException {
 		
-		minioAdapter.objectUpload(bucketName,invTypeId, files.getOriginalFilename(), files.getBytes());
+		minioAdapter.objectUpload(bucketName,id, files.getOriginalFilename(), files.getBytes());
 		
 		UploadImagePojo uip = new UploadImagePojo();
 		uip.setFileName(files.getOriginalFilename());
-		uip.setInvTypeId(invTypeId);
-		uip.setPath(minioUrl+"/"+bucketName+"/"+invTypeId+"/"+files.getOriginalFilename());
-		// Map<String, String> result = new HashMap<>();
-		// result.put("key", files.getOriginalFilename());
+		uip.setId(id);
+		uip.setPath(minioUrl+"/"+bucketName+"/"+id+"/"+files.getOriginalFilename());
 		return uip;
 	}
 
-//	@ResponseStatus(value = HttpStatus.OK)
-//	@Operation(summary = "API to upload multiple file", description = "API will upload the file")
-//	@PostMapping(path = "/uploadMultiple", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-//	public Map<String, String> uploadMultipleFile(@RequestPart(value = "file", required = false) MultipartFile[] files)
-//			throws IOException {
-//
-//		Map<String, String> result = new HashMap<>();
-//
-//		Arrays.asList(files).stream().forEach(fl -> {
-//			try {
-//				minioAdapter.objectUpload(fl.getOriginalFilename(), fl.getBytes());
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//			result.put("key", fl.getOriginalFilename());
-//		});
-//		return result;
-//	}
 
 	@GetMapping(path = "/download/{bucketName}/{invTypeId}/{fileName}")
 	@ResponseStatus(value = HttpStatus.OK)
 	@Operation(summary = "API to download file", description = "API will download the file")
 	public byte[] downloadFile(
-			//@Parameter(example = "Mahindra-Comviva-Logo.jpg", required = true, description = "Enter file name") 
 			@PathVariable String bucketName, @PathVariable Integer invTypeId,@PathVariable String fileName)
 			throws IOException {
 
@@ -99,16 +78,6 @@ public class MinioStorageController {
 
 	}
 
-//	@GetMapping(path = "/downloadMultiple")
-//	@ResponseStatus(value = HttpStatus.OK)
-//	@Operation(summary = "API to download file", description = "API will download the file")
-//	public byte[] downloadMultipleFile(
-//			@Parameter(example = "Mahindra-Comviva-Logo.jpg", required = true, description = "Enter file name") @RequestParam(value = "file", required = true) String file)
-//			throws IOException {
-//
-//		byte[] data = minioAdapter.objectDownload(file);
-//		return data;
-//
-//	}
+
 
 }
