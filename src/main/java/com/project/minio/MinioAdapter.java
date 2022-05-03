@@ -34,8 +34,6 @@ public class MinioAdapter {
     @Autowired
     private MinioClient minioClient;
     
-//    @Value("${minio.bucket.name}")
-//    private String bucketName;
     
     @Value("${minio.default.folder}")
     private String defaultBaseFolder;
@@ -72,9 +70,6 @@ public class MinioAdapter {
 
     		if(!minioClient.bucketExists(bucketName)) {
     			minioClient.makeBucket(bucketName);
-//    			if(!minioClient.bucketExists(bucketName+"/"+invTypeId)) {
-//    				
-//    			}
             }
     		
             minioClient.putObject(bucketName, invTypeId+"/"+objectName, new ByteArrayInputStream(imageBuffer), 
@@ -88,14 +83,12 @@ public class MinioAdapter {
 
     public byte[] objectDownload(String bucketName,Integer invTypeId,String fileName) {
     	
-//    	if(null==key) {
-//    		throw new NotFoundException(DATA, messageSource);
-//    	}
+
     	
         try {
-        	//LOGGER.info("key : [{}]", key);
+        	
             InputStream obj = minioClient.getObject(bucketName, "/"+invTypeId+"/"+fileName);
-        	//LOGGER.info("obj : [{}]", obj);
+        	
             byte[] content = IOUtils.toByteArray(obj);
         	LOGGER.info("content : [{}]", content);
             obj.close();
