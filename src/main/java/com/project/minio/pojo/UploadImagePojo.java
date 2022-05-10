@@ -2,14 +2,15 @@ package com.project.minio.pojo;
 
 public class UploadImagePojo {
 	
-	Integer id;
+	String id;
 	String fileName;
 	String path;
 	
-	public Integer getId() {
+	
+	public String getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getFileName() {

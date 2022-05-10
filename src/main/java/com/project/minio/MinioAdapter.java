@@ -58,7 +58,7 @@ public class MinioAdapter {
     }
     
     @SuppressWarnings("deprecation")
-   	public void objectUpload(String bucketName,Integer invTypeId,String objectName, byte[] imageBuffer) {
+   	public void objectUpload(String bucketName,String invTypeId,String objectName, byte[] imageBuffer) {
     		
     	if(null==objectName || null==imageBuffer) {
     		throw new NotFoundException(DATA, messageSource);

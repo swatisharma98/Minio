@@ -2,6 +2,7 @@ package com.project.minio.controllers;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +39,7 @@ public class MinioStorageController {
 	@ResponseStatus(value = HttpStatus.OK)
 	@Operation(summary = "API to list all the buckets", description = "API will return the list of all buckets")
 	public List<Bucket> listBuckets() {
+		System.out.println("GET LIST OF BUCKETS");
 		return minioAdapter.getAllBuckets();
 	}
 
@@ -45,14 +47,15 @@ public class MinioStorageController {
 	@Operation(summary = "API to upload file", description = "API will upload the file")
 	@PostMapping(path = "/upload/{bucketName}/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public UploadImagePojo uploadFile(@RequestPart(value = "file", required = false) MultipartFile files,
-			@PathVariable Integer id, @PathVariable String bucketName) throws IOException {
+			@PathVariable String id, @PathVariable String bucketName) throws IOException {
 		
-		minioAdapter.objectUpload(bucketName,id, files.getOriginalFilename(), files.getBytes());
-		
+		System.out.println("Start of Minio");
+		minioAdapter.objectUpload(bucketName,id, id+files.getOriginalFilename(), files.getBytes());	
 		UploadImagePojo uip = new UploadImagePojo();
-		uip.setFileName(files.getOriginalFilename());
+		uip.setFileName(id+files.getOriginalFilename());
 		uip.setId(id);
 		uip.setPath(minioUrl+"/"+bucketName+"/"+id+"/"+files.getOriginalFilename());
+		
 		return uip;
 	}
 
