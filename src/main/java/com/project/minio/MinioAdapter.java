@@ -59,26 +59,27 @@ public class MinioAdapter {
     
     @SuppressWarnings("deprecation")
    	public void objectUpload(String bucketName,String invTypeId,String objectName, byte[] imageBuffer) {
-    		
+    	LOGGER.info("Inside Minio Service : [{}]",invTypeId);
     	if(null==objectName || null==imageBuffer) {
     		throw new NotFoundException(DATA, messageSource);
     	}
     	
     	try {
+    		
     		LOGGER.info("bucketName : [{}]", bucketName);
     		LOGGER.info("defaultBaseFolder : [{}]", defaultBaseFolder);
-
     		if(!minioClient.bucketExists(bucketName)) {
     			minioClient.makeBucket(bucketName);
             }
-    		
             minioClient.putObject(bucketName, invTypeId+"/"+objectName, new ByteArrayInputStream(imageBuffer), 
               		imageBuffer.length, "application/octet-stream");
+            LOGGER.info("called successfully: [{}]");
            	} catch(Exception e) {
                LOGGER.info("Exception in objectUpload() ");
                LOGGER.info(e.getMessage());
                throw new ServiceUnavailableException(MINIO, messageSource);
         }
+    	LOGGER.info("Outside Minio Service : [{}]",invTypeId);
      }
 
     public byte[] objectDownload(String bucketName,Integer invTypeId,String fileName) {
