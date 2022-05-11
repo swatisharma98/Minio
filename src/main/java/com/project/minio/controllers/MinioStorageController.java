@@ -54,7 +54,7 @@ public class MinioStorageController {
 		UploadImagePojo uip = new UploadImagePojo();
 		uip.setFileName(id+files.getOriginalFilename());
 		uip.setId(id);
-		uip.setPath(minioUrl+"/"+bucketName+"/"+id+"/"+files.getOriginalFilename());
+		uip.setPath(minioUrl+"/"+bucketName+"/"+id+"/"+id+files.getOriginalFilename());
 		
 		return uip;
 	}
@@ -72,12 +72,12 @@ public class MinioStorageController {
 
 	}
 	
-	@DeleteMapping(path="/delete/{bucketName}/{invTypeId}/{fileName}")
+	@DeleteMapping(path="/delete/{bucketName}/{id}/{fileName}")
 	public void deleteFile(
-			@PathVariable String bucketName, @PathVariable Integer invTypeId,@PathVariable String fileName)
+			@PathVariable String bucketName, @PathVariable String id,@PathVariable String fileName)
 			throws IOException {
 
-		 minioAdapter.delete(bucketName,invTypeId,fileName);
+		 minioAdapter.delete(bucketName,id,fileName);
 
 	}
 

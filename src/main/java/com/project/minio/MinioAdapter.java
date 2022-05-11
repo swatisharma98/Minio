@@ -58,8 +58,8 @@ public class MinioAdapter {
     }
     
     @SuppressWarnings("deprecation")
-   	public void objectUpload(String bucketName,String invTypeId,String objectName, byte[] imageBuffer) {
-    	LOGGER.info("Inside Minio Service : [{}]",invTypeId);
+   	public void objectUpload(String bucketName,String id,String objectName, byte[] imageBuffer) {
+    	LOGGER.info("Inside Minio Service : [{}]",id);
     	if(null==objectName || null==imageBuffer) {
     		throw new NotFoundException(DATA, messageSource);
     	}
@@ -71,7 +71,7 @@ public class MinioAdapter {
     		if(!minioClient.bucketExists(bucketName)) {
     			minioClient.makeBucket(bucketName);
             }
-            minioClient.putObject(bucketName, invTypeId+"/"+objectName, new ByteArrayInputStream(imageBuffer), 
+            minioClient.putObject(bucketName, id+"/"+objectName, new ByteArrayInputStream(imageBuffer), 
               		imageBuffer.length, "application/octet-stream");
             LOGGER.info("called successfully: [{}]");
            	} catch(Exception e) {
@@ -79,7 +79,7 @@ public class MinioAdapter {
                LOGGER.info(e.getMessage());
                throw new ServiceUnavailableException(MINIO, messageSource);
         }
-    	LOGGER.info("Outside Minio Service : [{}]",invTypeId);
+    	LOGGER.info("Outside Minio Service : [{}]",id);
      }
 
     public byte[] objectDownload(String bucketName,Integer invTypeId,String fileName) {
@@ -101,10 +101,10 @@ public class MinioAdapter {
         }
     }
     
-    public void delete(String bucketName,Integer invTypeId,String fileName) {
+    public void delete(String bucketName,String id,String fileName) {
             
 				try {
-					minioClient.removeObject(bucketName,invTypeId+"/"+fileName);
+					minioClient.removeObject(bucketName,id+"/"+fileName);
 				} catch (Exception e) {
 					e.printStackTrace();
 				} 
